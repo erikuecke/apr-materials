@@ -31,6 +31,18 @@
 /// THE SOFTWARE.
 
 import UIKit
+import QuickLook
+
+extension ViewController: QLPreviewControllerDelegate, QLPreviewControllerDataSource {
+  func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+    return modelNames.count 
+  }
+  
+  func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+    let url = Bundle.main.url(forResource: modelNames[modelIndex], withExtension: "usdz")!
+    return url as QLPreviewItem
+  }
+}
 
 class ViewController: UIViewController,
   UITableViewDataSource, UITableViewDelegate {
@@ -76,6 +88,14 @@ class ViewController: UIViewController,
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     modelIndex = indexPath.row
+    // 1
+    let previewController = QLPreviewController()
+    // 2
+    previewController.dataSource = self
+    previewController.delegate = self
+    // 3
+    present(previewController, animated: false)
+    
   }
   
   // MARK: - QLPreviewControllerDataSource

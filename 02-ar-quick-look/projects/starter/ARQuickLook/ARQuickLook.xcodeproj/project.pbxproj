@@ -13,6 +13,9 @@
 		835F6DB1213C2382007798DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835F6DB0213C2382007798DB /* Assets.xcassets */; };
 		835F6DB4213C2382007798DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 835F6DB2213C2382007798DB /* LaunchScreen.storyboard */; };
 		835F6DBC213C2AC6007798DB /* GalleryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835F6DBB213C2AC6007798DB /* GalleryTableViewCell.swift */; };
+		9EA8A2CB2788D4DF00ABF5CD /* Pig.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 9EA8A2C82788D4DF00ABF5CD /* Pig.usdz */; };
+		9EA8A2CC2788D4DF00ABF5CD /* Teapot.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 9EA8A2C92788D4DF00ABF5CD /* Teapot.usdz */; };
+		9EA8A2CD2788D4DF00ABF5CD /* Gramophone.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 9EA8A2CA2788D4DF00ABF5CD /* Gramophone.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		835F6DB3213C2382007798DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		835F6DB5213C2382007798DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		835F6DBB213C2AC6007798DB /* GalleryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryTableViewCell.swift; sourceTree = "<group>"; };
+		9EA8A2C82788D4DF00ABF5CD /* Pig.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Pig.usdz; sourceTree = "<group>"; };
+		9EA8A2C92788D4DF00ABF5CD /* Teapot.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Teapot.usdz; sourceTree = "<group>"; };
+		9EA8A2CA2788D4DF00ABF5CD /* Gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Gramophone.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,7 @@
 		835F6DA8213C2381007798DB /* ARQuickLook */ = {
 			isa = PBXGroup;
 			children = (
+				9EA8A2C72788D4DF00ABF5CD /* Models */,
 				835F6DA9213C2381007798DB /* AppDelegate.swift */,
 				835F6DAB213C2381007798DB /* ViewController.swift */,
 				835F6DAD213C2381007798DB /* Main.storyboard */,
@@ -67,6 +74,17 @@
 				835F6DB5213C2382007798DB /* Info.plist */,
 			);
 			path = ARQuickLook;
+			sourceTree = "<group>";
+		};
+		9EA8A2C72788D4DF00ABF5CD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9EA8A2C82788D4DF00ABF5CD /* Pig.usdz */,
+				9EA8A2C92788D4DF00ABF5CD /* Teapot.usdz */,
+				9EA8A2CA2788D4DF00ABF5CD /* Gramophone.usdz */,
+			);
+			name = Models;
+			path = ../../../resources/Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +146,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA8A2CC2788D4DF00ABF5CD /* Teapot.usdz in Resources */,
+				9EA8A2CD2788D4DF00ABF5CD /* Gramophone.usdz in Resources */,
+				9EA8A2CB2788D4DF00ABF5CD /* Pig.usdz in Resources */,
 				835F6DB4213C2382007798DB /* LaunchScreen.storyboard in Resources */,
 				835F6DB1213C2382007798DB /* Assets.xcassets in Resources */,
 				835F6DAF213C2381007798DB /* Main.storyboard in Resources */,
@@ -290,7 +311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DSV7VS8A6A;
 				INFOPLIST_FILE = ARQuickLook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -309,7 +330,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = DSV7VS8A6A;
 				INFOPLIST_FILE = ARQuickLook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

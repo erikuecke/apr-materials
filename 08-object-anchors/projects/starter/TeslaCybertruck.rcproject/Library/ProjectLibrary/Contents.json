@@ -18,5 +18,10 @@
     "libraryIdentifier" : "e76444793cf299f0838fa693bf1bb04d",
     "format" : "image",
     "displayName" : "VersatileUtility.png"
+  },
+  {
+    "libraryIdentifier" : "bcc80c8739eb12f212478752db8d8a46",
+    "format" : "arObject",
+    "displayName" : "ChairPiggyBank.arobject"
   }
 ]

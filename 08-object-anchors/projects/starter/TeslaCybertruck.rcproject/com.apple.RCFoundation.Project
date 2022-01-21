@@ -6,13 +6,21 @@
           "__content" : [
             {
               "arAnchorSpecification" : {
-                "alignment" : "horizontal",
-                "name" : "surface"
+                "name" : "object",
+                "url" : "arObject:bcc80c8739eb12f212478752db8d8a46\/ChairPiggyBank.arobject"
               },
               "behaviors" : [
                 {
                   "__content" : [
                     {
+                      "accessibility" : {
+                        "__content" : [
+                          {
+                            "isEnabled" : false
+                          }
+                        ],
+                        "__version" : 1
+                      },
                       "actionGroups" : [
                         {
                           "__content" : [
@@ -87,11 +95,19 @@
                       ]
                     }
                   ],
-                  "__version" : 2
+                  "__version" : 3
                 },
                 {
                   "__content" : [
                     {
+                      "accessibility" : {
+                        "__content" : [
+                          {
+                            "isEnabled" : false
+                          }
+                        ],
+                        "__version" : 1
+                      },
                       "actionGroups" : [
                         {
                           "__content" : [
@@ -262,11 +278,19 @@
                       ]
                     }
                   ],
-                  "__version" : 2
+                  "__version" : 3
                 },
                 {
                   "__content" : [
                     {
+                      "accessibility" : {
+                        "__content" : [
+                          {
+                            "isEnabled" : false
+                          }
+                        ],
+                        "__version" : 1
+                      },
                       "actionGroups" : [
                         {
                           "__content" : [
@@ -461,11 +485,19 @@
                       ]
                     }
                   ],
-                  "__version" : 2
+                  "__version" : 3
                 },
                 {
                   "__content" : [
                     {
+                      "accessibility" : {
+                        "__content" : [
+                          {
+                            "isEnabled" : false
+                          }
+                        ],
+                        "__version" : 1
+                      },
                       "actionGroups" : [
                         {
                           "__content" : [
@@ -660,11 +692,19 @@
                       ]
                     }
                   ],
-                  "__version" : 2
+                  "__version" : 3
                 },
                 {
                   "__content" : [
                     {
+                      "accessibility" : {
+                        "__content" : [
+                          {
+                            "isEnabled" : false
+                          }
+                        ],
+                        "__version" : 1
+                      },
                       "actionGroups" : [
                         {
                           "__content" : [
@@ -859,7 +899,7 @@
                       ]
                     }
                   ],
-                  "__version" : 2
+                  "__version" : 3
                 }
               ],
               "gravity" : [
@@ -867,7 +907,6 @@
                 -9.8000001907348633,
                 0
               ],
-              "hasGroundPlane" : false,
               "identifier" : "0CE4536E-9743-4813-B80F-56A5356CD81E",
               "material" : "concrete",
               "overrides" : {
@@ -1369,8 +1408,18 @@
                   },
                   "E4035CB9-1F8A-4DC5-BF8C-0646840393DE" : null
                 },
-                "factory" : null
+                "factory" : null,
+                "runtimeAttributes" : [
+                  [
+                    "isAccessibilityEnabled",
+                    {
+                      "typeName" : "Bool",
+                      "value" : false
+                    }
+                  ]
+                ]
               },
+              "physicsMode" : "none",
               "title" : "Main",
               "viewTransform" : {
                 "cameraTransform" : [
@@ -1412,7 +1461,7 @@
               }
             }
           ],
-          "__version" : 4
+          "__version" : 5
         }
       ],
       "tags" : {
