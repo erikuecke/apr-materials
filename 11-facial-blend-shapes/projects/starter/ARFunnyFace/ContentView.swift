@@ -152,7 +152,7 @@ struct ARViewContainer: UIViewRepresentable {
             
             // Laser eyes
             // 1
-            if (self.isLasersDone == true && jawOpen! > 0.9) {
+            if (self.isLasersDone == true && jawOpen! > 0.5) {
                 // 2
                 self.isLasersDone = false
                 // 3
