@@ -23,6 +23,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var appState: AppState = .DetectSurface
     var focusPoint: CGPoint!
     var focusNode: SCNNode!
+    var arPortNode: SCNNode!
     
     
     // MARK: - IB Outlets
@@ -36,6 +37,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func tapGestureHandler(_ sender: Any) {
+        // 1
+        guard appState == .TapToStart else { return }
+        // 2
+        self.arPortNode.isHidden = false
+        self.focusNode.isHidden = true
+        // 3
+        self.arPortNode.position = self.focusNode.position
+        // 4
+        appState = .Started
     }
     
     override func viewDidLoad() {
@@ -73,11 +83,14 @@ extension ViewController {
     func startApp() {
         DispatchQueue.main.async {
             self.appState = .DetectSurface
+            self.arPortNode.isHidden = true
+            self.focusNode.isHidden = true
         }
     }
     
     func resetApp() {
         DispatchQueue.main.async {
+            self.arPortNode.isHidden = true
             self.resetARSession()
             self.appState = .DetectSurface
         }
@@ -190,6 +203,27 @@ extension ViewController {
         let scene = SCNScene()
         sceneView.scene = scene
         sceneView.delegate = self
+        
+        // 1
+        let arPortScene = SCNScene(named: "art.scnassets/Scenes/ARPortScene.scn")!
+        // 2
+        arPortNode = arPortScene.rootNode.childNode(withName: "ARPort", recursively: false)!
+        // 3
+        arPortNode.isHidden = true
+        sceneView.scene.rootNode.addChildNode(arPortNode)
+        
+        // Statistics
+        // 1
+//        sceneView.showsStatistics = true
+        // 2
+//        sceneView.debugOptions = [
+//            ARSCNDebugOptions.showFeaturePoints,
+//            ARSCNDebugOptions.showCreases,
+//            ARSCNDebugOptions.showWorldOrigin,
+//            ARSCNDebugOptions.showBoundingBoxes,
+//            ARSCNDebugOptions.showWireframe
+//        ]
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -213,6 +247,24 @@ extension ViewController {
         
         self.statusLabel.text = trackingStatus != "" ?
         "\(trackingStatus)" : "\(statusMessage)"
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // 1
+        if let touchLocation = touches.first?.location(in: self.sceneView) {
+            if let hit = self.sceneView.hitTest(touchLocation, options: nil).first {
+                // 2
+                if hit.node.name == "Touch" {
+                    // 3
+                    let billboardNode = hit.node.childNode(withName: "Billboard", recursively: false)
+                    billboardNode?.isHidden = false
+                }
+                // 4
+                if hit.node.name == "Billboard" {
+                    hit.node.isHidden = true
+                }
+            }
+        }
     }
 }
 
