@@ -134,3 +134,9 @@ extension MultipeerSession: MCNearbyServiceAdvertiserDelegate {
     invitationHandler(true, self.session)
   }
 }
+
+extension MultipeerSession {
+    public var multipeerConnectivityService: MultipeerConnectivityService? {
+        return try? MultipeerConnectivityService(session: self.session)
+    }
+}

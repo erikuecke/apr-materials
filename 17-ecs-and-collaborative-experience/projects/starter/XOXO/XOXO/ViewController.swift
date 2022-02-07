@@ -42,7 +42,9 @@ class ViewController: UIViewController, ARSessionDelegate {
     var gridModelEntityX: ModelEntity?
     var gridModelEntityY: ModelEntity?
     var tileModelEntity: ModelEntity?
-    
+    var multipeerSession: MultipeerSession?
+    var peerSessionIDs = [MCPeerID: String]()
+    var sessionIDObservation: NSKeyValueObservation?
     
     // MARK: - IBOutlets & IBActions
     
@@ -58,6 +60,7 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
     
     @IBAction func clearButtonPressed(_ sender: Any) {
+        removeAnchors()
     }
     
     // MARK: - AR View Functions
@@ -68,6 +71,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         let arConfiguration = ARWorldTrackingConfiguration()
         arConfiguration.planeDetection = [.horizontal]
         arConfiguration.environmentTexturing = .automatic
+        arConfiguration.isCollaborationEnabled = true
         arView.session.run(arConfiguration)
     }
     
@@ -76,6 +80,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         initARView()
         initModelEntities()
         initGestures()
+        initMultipeerSession()
     }
 }
 
@@ -132,6 +137,7 @@ extension ViewController {
         // 1
         anchorEntity.anchoring = AnchoringComponent(arAnchor)
         // 2
+        anchorEntity.synchronization?.ownershipTransferMode = .autoAccept
         arView.scene.addAnchor(anchorEntity)
         arView.session.add(anchor: arAnchor)
         
@@ -149,7 +155,34 @@ extension ViewController {
     }
     
     @objc func handleTap(recognizer: UITapGestureRecognizer?) {
+        guard let touchLocation = recognizer?.location(in: self.arView) else { return }
+        if let hitEntity = self.arView.entity(at: touchLocation) {
+            if hitEntity.isOwner {
+                let modelEntity = hitEntity as! ModelEntity
+                modelEntity.model?.materials = [
+                    SimpleMaterial(color: self.playerColor, isMetallic: true)
+                ]
+            } else {
+                hitEntity.requestOwnership { result in
+                    if result == .granted {
+                        let modelEntity = hitEntity as! ModelEntity
+                        modelEntity.model?.materials = [
+                            SimpleMaterial(color: self.playerColor, isMetallic: true)
+                        ]
+                    }
+                }
+            }
+            return
+        }
         
+        let results = self.arView.raycast(from: touchLocation, allowing: .estimatedPlane, alignment: .horizontal)
+        if let firstResult  = results.first, arView.session.currentFrame?.anchors.contains(where: {$0.name == "XOXO Grid"}) == false {
+            self.addGameBoardAnchor(transform: firstResult.worldTransform)
+        } else {
+            self.message.text = "[WARNING] No surface detected!"
+        }
+        
+
     }
     
 }
@@ -159,8 +192,68 @@ extension ViewController {
 
 extension ViewController {
     
-    // Add code here...
+    func initMultipeerSession() {
+        
+        sessionIDObservation = observe(\.arView?.session.identifier, options: [.new]) { object, change in
+            print("Current SessionID: \(String(describing: change.newValue!))")
+            guard let multipeerSession = self.multipeerSession else { return }
+            self.sendARSessionIDTo(peers: multipeerSession.connectedPeers)
+        }
+        
+        multipeerSession = MultipeerSession(receivedDataHandler: receivedData, peerJoinedHandler: peerJoined, peerLeftHandler: peerLeft, peerDiscoveredHandler: peerDiscovered(_:))
+        
+        // 1
+        guard let multipeerConenctivityService = multipeerSession!.multipeerConnectivityService else {
+            fatalError("[FATAL ERROR] Unable to create Sync Service!")
+        }
+        // 2
+        arView.scene.synchronizationService = multipeerConenctivityService
+        self.message.text = "Waiting for peers..."
+    }
     
+    func receivedData(_ data: Data, from peer: MCPeerID) {
+        
+    }
+    
+    func peerDiscovered(_ peer: MCPeerID) -> Bool {
+        guard let mulitpeerSession = multipeerSession else { return false }
+        sendMessage("Peer discovered!")
+        if mulitpeerSession.connectedPeers.count > 2 {
+            sendMessage("[WARNING] Max connections reached!")
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func peerJoined(_ peer: MCPeerID) {
+        sendMessage("Holde phones together...")
+        sendARSessionIDTo(peers: [peer])
+    }
+    
+    func peerLeft(_ peer: MCPeerID) {
+        sendMessage("Peer left!")
+        peerSessionIDs.removeValue(forKey: peer)
+    }
+    
+    private func sendARSessionIDTo(peers: [MCPeerID]) {
+        guard let multipeerSession = multipeerSession else { return }
+        let idString = arView.session.identifier.uuidString
+        let command = "SessionID:" + idString
+        if let commandData = command.data(using: .utf8) {
+            multipeerSession.sendToPeers(commandData, reliably: true, peers: peers)
+        }
+    }
+    
+    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+        for anchor in anchors {
+            if let participantAnchor = anchor as? ARParticipantAnchor {
+                self.message.text = "Peer connected"
+                let anchorEntitiy = AnchorEntity(anchor: participantAnchor)
+                arView.scene.addAnchor(anchorEntitiy)
+            }
+        }
+    }
 }
 
 // MARK: - Helper Functions
@@ -173,6 +266,15 @@ extension ViewController {
         }
     }
     
+    func removeAnchors() {
+        guard let frame = arView.session.currentFrame else {
+            return
+        }
+        for anchor in frame.anchors {
+            arView.session.remove(anchor: anchor)
+        }
+        sendMessage("All anchors removed!")
+    }
 }
 
 
