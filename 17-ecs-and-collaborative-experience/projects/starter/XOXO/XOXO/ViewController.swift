@@ -108,6 +108,7 @@ extension ViewController {
     func addGameBoardAnchor(transform: simd_float4x4) {
         // 1
         let arAnchor = ARAnchor(name: "XOXO Grid", transform: transform)
+        
         let anchorEntity = AnchorEntity(anchor: arAnchor)
         // 2
         anchorEntity.addChild(cloneModelEntity(gridModelEntityY!, position: SIMD3(x: 0.05, y: 0, z: 0)))
